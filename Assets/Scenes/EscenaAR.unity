@@ -2071,7 +2071,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.990566, g: 0.9774991, b: 0.65881985, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2168,6 +2168,7 @@ GameObject:
   - component: {fileID: 1345360888}
   - component: {fileID: 1345360890}
   - component: {fileID: 1345360891}
+  - component: {fileID: 1345360892}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -2238,7 +2239,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PokemonCardContentController
   imageManager: {fileID: 1345360890}
-  contentPrefab: {fileID: 2433051992426266046, guid: 81041def824a1c14193a8cb54b6a4644, type: 3}
+  contentPrefab: {fileID: 0}
+  cardSelector: {fileID: 1345360892}
+--- !u!114 &1345360892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345360887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caff2d77041ee174ebfb97b63dd861fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonCardSelector
+  cardContents:
+  - referenceImageName: target_pokemon_01
+    contentPrefab: {fileID: 2433051992426266046, guid: 81041def824a1c14193a8cb54b6a4644, type: 3}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  - referenceImageName: target_pokemon_02
+    contentPrefab: {fileID: 4287545565393169933, guid: 1a4271cd2cb9b4b4d8d881377fb2c96f, type: 3}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  - referenceImageName: target_carta
+    contentPrefab: {fileID: 8079457066082215529, guid: cf6d060d8421a514fac1315c6f884ff7, type: 3}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 1, y: 1, z: 1}
 --- !u!1 &1399118305
 GameObject:
   m_ObjectHideFlags: 0

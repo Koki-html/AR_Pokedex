@@ -25,11 +25,28 @@ public class PokemonCardContentController : MonoBehaviour
     [SerializeField]
     private GameObject contentPrefab;
 
-    // Relaciona cada imagen seguida (TrackableId) con el
-    // contenido creado: una carta → una Poké Ball.
+    // Selector opcional; las imágenes sin una entrada usan contentPrefab.
+    [SerializeField]
+    private PokemonCardSelector cardSelector;
+
+    // Relaciona cada imagen seguida (TrackableId) con su contenido creado.
     private readonly Dictionary<TrackableId, GameObject>
         spawnedContent =
             new Dictionary<TrackableId, GameObject>();
+
+    private void Awake()
+    {
+        if (imageManager == null)
+            imageManager = GetComponent<ARTrackedImageManager>();
+
+        if (cardSelector == null)
+            cardSelector = GetComponent<PokemonCardSelector>();
+
+        if (imageManager == null)
+            Debug.LogError(
+                "ARTrackedImageManager is not assigned or attached to this GameObject.",
+                this);
+    }
 
     // ---------- PARTE 2: suscripción a eventos ----------
 
@@ -70,8 +87,28 @@ public class PokemonCardContentController : MonoBehaviour
 
     private void CreateContent(ARTrackedImage trackedImage)
     {
-        // Sin Prefab asignado no hay nada que crear.
-        if (contentPrefab == null) return;
+        string imageName = trackedImage.referenceImage.name;
+        Debug.Log($"Recognized AR card: '{imageName}'.", this);
+
+        GameObject prefabToInstantiate = contentPrefab;
+        Vector3 localPosition = Vector3.zero;
+        Quaternion localRotation = Quaternion.identity;
+        Vector3 localScale = Vector3.one;
+        bool hasSelectedContent = cardSelector != null &&
+            cardSelector.TryGetContent(
+                imageName,
+                out prefabToInstantiate,
+                out localPosition,
+                out localRotation,
+                out localScale);
+
+        if (prefabToInstantiate == null)
+        {
+            Debug.LogError(
+                $"No content prefab is configured for card '{imageName}'.",
+                this);
+            return;
+        }
 
         // Si esta imagen ya tiene contenido, no lo duplicamos.
         TrackableId id = trackedImage.trackableId;
@@ -80,12 +117,23 @@ public class PokemonCardContentController : MonoBehaviour
         // Creamos el Prefab como HIJO del ARTrackedImage:
         // hereda su posición y orientación sobre la carta.
         GameObject content = Instantiate(
-            contentPrefab, trackedImage.transform, false);
+            prefabToInstantiate, trackedImage.transform, false);
+        Debug.Log(
+            $"Displaying prefab '{prefabToInstantiate.name}' for card '{imageName}'.",
+            content);
 
-        // Centro de la imagen, sin giro extra. La altura de
-        // la Poké Ball se ajusta DENTRO del Prefab.
-        content.transform.localPosition = Vector3.zero;
-        content.transform.localRotation = Quaternion.identity;
+        if (hasSelectedContent)
+        {
+            content.transform.localPosition = localPosition;
+            content.transform.localRotation = localRotation;
+            content.transform.localScale = localScale;
+        }
+        else
+        {
+            // Mantiene el comportamiento anterior para imágenes sin entrada.
+            content.transform.localPosition = Vector3.zero;
+            content.transform.localRotation = Quaternion.identity;
+        }
 
         // Guardamos la relación imagen → contenido.
         spawnedContent.Add(id, content);
