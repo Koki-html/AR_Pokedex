@@ -13,7 +13,6 @@ contenido de Pokémon en un entorno real utilizando un dispositivo Android.
 - **Código:** D-ELEC-II-IEI-RVIRTUAL-OP1
 - **Profesor:** Sebastián Alvarez Trujillo
 - **Estudiante:** [Miguel Burgos](https://github.com/Koki-html)
-![Foto de Perfil](https://avatars.githubusercontent.com/u/140357657?v=4)
 
 
 ## Imágenes objetivo
